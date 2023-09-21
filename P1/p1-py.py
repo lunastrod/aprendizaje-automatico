@@ -178,20 +178,22 @@ y_pred = model.predict(X)
 # Se representa la clasificación real
 fig = plt.figure()
 ax = fig.add_subplot(111, projection='3d')
-ax.scatter(X[y==0,0], X[y==0,1], X[y==0,2], c='red', marker='x')
-ax.scatter(X[y==1,0], X[y==1,1], X[y==1,2], c='blue', marker='x')
+# si el dato es de la clase 0 se representa con una cruz
+# si el dato es de la clase 1 se representa con un punto
+# si el dato de la predicción es el mismo que el real se representa en azul
+# si el dato de la predicción es distinto al real se representa en rojo
+for i in range(len(X)):
+    if y[i] == 0:
+        if y_pred[i] == 0:
+            ax.scatter(X[i,0], X[i,1], X[i,2], c='blue', marker='x')
+        else:
+            ax.scatter(X[i,0], X[i,1], X[i,2], c='red', marker='x')
+    else:
+        if y_pred[i] == 0:
+            ax.scatter(X[i,0], X[i,1], X[i,2], c='red', marker='.')
+        else:
+            ax.scatter(X[i,0], X[i,1], X[i,2], c='blue', marker='.')
 ax.set_xlabel('x1')
 ax.set_ylabel('x2')
 ax.set_zlabel('x3')
 plt.show()
-
-# Se representa la clasificación del modelo
-fig = plt.figure()
-ax = fig.add_subplot(111, projection='3d')
-ax.scatter(X[y_pred==0,0], X[y_pred==0,1], X[y_pred==0,2], c='red', marker='x')
-ax.scatter(X[y_pred==1,0], X[y_pred==1,1], X[y_pred==1,2], c='blue', marker='x')
-ax.set_xlabel('x1')
-ax.set_ylabel('x2')
-ax.set_zlabel('x3')
-plt.show()
-
