@@ -31,13 +31,10 @@ X_test = df.drop('PESCAR', axis=1)
 X_test = pd.get_dummies(X_train)
 y_test = df['PESCAR']
 
-# Crear un clasificador de árbol de decisión
 clf = DecisionTreeClassifier()
 
-# Entrenar el modelo
 clf.fit(X_train, y_train)
 
-# Evaluar el modelo
 accuracy = clf.score(X_test, y_test)
 print(f"Precisión del modelo: {accuracy}")
 
@@ -69,58 +66,41 @@ data=np.array([ [0.89,0.41,0.69,1],
 X = data[:, :-1]
 y = data[:, -1]
 
-# Dividir los datos en conjuntos de entrenamiento y prueba
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
-# Crear un clasificador de árbol de decisión
 clf = DecisionTreeClassifier()
 
-# Entrenar el modelo
 clf.fit(X_train, y_train)
-plot_tree(clf, filled=True)
-# Evaluar el modelo
+#plot_tree(clf, filled=True)
 accuracy = clf.score(X_test, y_test)
 print(f"Precisión del modelo: {accuracy}")
 
 # ==============================================================================
 
-# Cargar los datos desde el archivo data.csv
 data = pd.DataFrame(pd.read_csv('data.csv'))
 X = data[['X1', 'X2', 'X3']]
 y = data['Y']
 
-# Crear y entrenar el modelo KNN
-knn_model = KNeighborsClassifier(n_neighbors=3)  # Elige el número de vecinos apropiado
+knn_model = KNeighborsClassifier(n_neighbors=3)  
 knn_model.fit(X, y)
 
-# Clasificar el vector x = (2, 1, 3)
 nueva_instancia = pd.DataFrame({'X1': [2], 'X2': [1], 'X3': [3]})
 clase_predicha = knn_model.predict(nueva_instancia)
 print(f"La clase predicha para x = (2, 1, 3) es: {clase_predicha[0]}")
 
-# Separar las clases
 clases = data['Y'].unique()
 print(f"Clases: {clases}\n")
-# Calcular la matriz de covarianza para cada clase
 for clase in clases:
-    # Filtrar el DataFrame por clase
     subset = data[data['Y'] == clase]
-    # Seleccionar solo las columnas de características
     features = subset[['X1', 'X2', 'X3']]
-    # Calcular la matriz de covarianza
     cov_matrix = features.cov()
     print(f"Matriz de Covarianza para la Clase {clase}:\n{cov_matrix}\n")
 
-# Configurar la figura 3D
 fig = plt.figure(figsize=(10, 8))
 ax = fig.add_subplot(111, projection='3d')
-# Crear una gráfica de dispersión tridimensional
 scatter = ax.scatter(data['X1'], data['X2'], data['X3'], c=data['Y'], cmap='viridis')
-# Configurar la leyenda
 ax.legend(*scatter.legend_elements(), title='Clases (Y)')
-# Configurar etiquetas de ejes
 ax.set_xlabel('X1')
 ax.set_ylabel('X2')
 ax.set_zlabel('X3')
 ax.set_title('Gráfico de Dispersión Tridimensional')
-# Mostrar la gráfica
 plt.show()
